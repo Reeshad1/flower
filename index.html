@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growing Lavender Tulip</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f8ff;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
+        }
+
+        .interface {
+            text-align: center;
+            margin-bottom: 30px;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #9370db;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background-color: #d8bfd8;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #ba9dba;
+            transform: translateY(-2px);
+        }
+
+        .garden {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .grass {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #7cfc00;
+            border-radius: 0 0 10px 10px;
+            z-index: 1;
+        }
+
+        .grass::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to top, transparent, #7cfc00);
+        }
+
+        .stem {
+            position: absolute;
+            bottom: 80px;
+            width: 8px;
+            background-color: #228b22;
+            transform-origin: bottom;
+            transform: scaleY(3);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 15px;
+            background-color: #2e8b57;
+            border-radius: 10px;
+            transform: rotate(30deg);
+            z-index: 2;
+            opacity: 0;
+        }
+
+        .flower {
+            position: absolute;
+            width: 37px;
+            height: 50px;
+            bottom: 5;
+            background-color: #c77df6;
+            transform: scale(1);
+            z-index: 5;
+            opacity: 0;
+        }
+
+        .petal {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background-color: #e6e6fa;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: inset 0 0 10px #f8baf8;
+        }
+
+        .petal:nth-child(1) {
+            transform: rotate(0deg) translateY(-20px);
+        }
+
+        .petal:nth-child(2) {
+            transform: rotate(72deg) translateY(-20px);
+        }
+
+        .petal:nth-child(3) {
+            transform: rotate(144deg) translateY(-20px);
+        }
+
+        .petal:nth-child(4) {
+            transform: rotate(216deg) translateY(-20px);
+        }
+
+        .petal:nth-child(5) {
+            transform: rotate(288deg) translateY(-20px);
+        }
+
+        .center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .message {
+            position: absolute;
+            top: 0%;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: #ff69b4;
+            opacity: 0;
+            transform: translateY(20px);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            z-index: 4;
+        }
+
+        .blade {
+            position: absolute;
+            bottom: 80px;
+            width: 3px;
+            height: 30px;
+            background-color: #7cfc00;
+            transform-origin: bottom;
+            z-index: 1;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="interface">
+        <h1>Watch the Magic Grow! 🌷</h1>
+        <button id="growButton">Grow My Flower</button>
+    </div>
+
+    <div class="garden">
+        <div class="grass" id="grass"></div>
+        <div class="stem" id="stem"></div>
+        <div class="flower" id="flower">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="center"></div>
+        </div>
+        <div class="message" id="message">I Love You</div>
+    </div>
+
+    <script>
+        document.getElementById('growButton').addEventListener('click', function() {
+            // Reset animation
+            document.getElementById('stem').style.animation = 'none';
+            document.getElementById('flower').style.animation = 'none';
+            document.getElementById('message').style.animation = 'none';
+            
+            // Create grass blades
+            const grass = document.getElementById('grass');
+            for (let i = 0; i < 20; i++) {
+                const blade = document.createElement('div');
+                blade.className = 'blade';
+                blade.style.left = `${Math.random() * 100}%`;
+                blade.style.height = `${20 + Math.random() * 30}px`;
+                blade.style.transform = `rotate(${-15 + Math.random() * 30}deg)`;
+                grass.appendChild(blade);
+            }
+
+            // Create leaves
+            const stem = document.getElementById('stem');
+            const leaf1 = document.createElement('div');
+            leaf1.className = 'leaf';
+            leaf1.style.right= '50%';
+            leaf1.style.bottom = '120px';
+            
+            const leaf2 = document.createElement('div');
+            leaf2.className = 'leaf';
+            leaf2.style.left = '50%';
+            leaf2.style.bottom = '160px';
+            leaf2.style.transform = 'rotate(-30deg)';
+            
+            stem.parentNode.insertBefore(leaf1, stem.nextSibling);
+            stem.parentNode.insertBefore(leaf2, stem.nextSibling);
+
+            // Animate stem growth
+            setTimeout(() => {
+                document.getElementById('stem').style.height = '190px';
+                document.getElementById('stem').style.transition = 'height 4s ease-out';
+                document.getElementById('stem').style.transform = 'scaleY(1)';
+                
+                
+                // Animate leaves
+                setTimeout(() => {
+                    leaf1.style.opacity = '1';
+                    leaf1.style.transition = 'opacity 1s ease-out';
+                    leaf2.style.opacity = '1';
+                    leaf2.style.transition = 'opacity 1s ease-out';
+                }, 1500);
+            }, 500);
+
+            // Animate flower growth
+            setTimeout(() => {
+                const flower = document.getElementById('flower');
+                flower.style.bottom = '250px';
+                flower.style.center = '10%';
+                flower.style.opacity = '1';
+                flower.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                flower.style.transform = 'scale(1)';
+                
+                // Add sway animation
+                setTimeout(() => {
+                    flower.style.animation = 'sway 0.6s infinite ease-in-out';
+                }, 300);
+                
+                // Show message
+                setTimeout(() => {
+                    const message = document.getElementById('message');
+                    message.style.opacity = '0.6';
+                    message.style.transform = 'translateY(0)';
+                    message.style.transition = 'opacity 0.6s ease-out, transform 0.9s ease-out';
+                }, 400);
+            }, 200);
+            
+            // Disable button after click
+            this.disabled = true;
+            this.textContent = 'Enjoy Your Flower!';
+            this.style.backgroundColor = '#ba9dba';
+        });
+    </script>
+</body>
+</html>
